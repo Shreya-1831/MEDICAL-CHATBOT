@@ -71,15 +71,21 @@ class VectorDatabase:
         # Format results
         retrieved_chunks = []
         
-        if results and results['documents'] and len(results['documents']) > 0:
-            for i in range(len(results['documents'][0])):
-                chunk = {
-                    'text': results['documents'][0][i],
-                    'source': results['metadatas'][0][i]['source'],
-                    'chunk_id': results['metadatas'][0][i]['chunk_id'],
-                    'distance': results['distances'][0][i] if 'distances' in results else None
-                }
-                retrieved_chunks.append(chunk)
+        if results and results.get('documents'):
+            docs_list = results.get('documents')
+            if docs_list and len(docs_list) > 0:
+                docs = docs_list[0]
+                metas = results['metadatas'][0] if results.get('metadatas') else []
+                dists = results['distances'][0] if results.get('distances') else []
+                
+                for i in range(len(docs)):
+                    chunk = {
+                        'text': docs[i],
+                        'source': metas[i]['source'] if i < len(metas) else 'Unknown',
+                        'chunk_id': metas[i]['chunk_id'] if i < len(metas) else i,
+                        'distance': dists[i] if i < len(dists) else None
+                    }
+                    retrieved_chunks.append(chunk)
         
         return retrieved_chunks
     

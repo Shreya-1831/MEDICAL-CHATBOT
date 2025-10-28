@@ -1,5 +1,5 @@
 import ollama
-from typing import List
+from typing import List, cast
 from chromadb.api.types import Documents, EmbeddingFunction, Embeddings
 
 class OllamaEmbeddingFunction(EmbeddingFunction):
@@ -30,9 +30,9 @@ class OllamaEmbeddingFunction(EmbeddingFunction):
     def __call__(self, input: Documents) -> Embeddings:
         """Generate embeddings for input documents"""
         if self.use_ollama:
-            return self._ollama_embeddings(input)
+            return cast(Embeddings, self._ollama_embeddings(input))
         else:
-            return self._fallback_embeddings(input)
+            return cast(Embeddings, self._fallback_embeddings(input))
     
     def _ollama_embeddings(self, texts: List[str]) -> List[List[float]]:
         """Generate embeddings using Ollama"""
