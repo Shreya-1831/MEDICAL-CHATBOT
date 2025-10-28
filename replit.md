@@ -70,6 +70,14 @@ Preferred communication style: Simple, everyday language.
   - Similarity Metric: Cosine similarity
   - No external database server required
 
+**Custom ML Model Integration**
+- **Custom Model Support**: System allows users to train and integrate their own ML models for embeddings
+- **Training Pipeline**: `train_custom_model.py` provides methods to train custom models on user's documents (TF-IDF, Sentence-BERT, HuggingFace)
+- **Easy Integration**: `use_custom_model.py` provides drop-in replacement for default embeddings
+- **Model Types Supported**: scikit-learn (TF-IDF), HuggingFace Transformers, PyTorch, custom models
+- **Training Data**: Users can train models on their own books, thesis, and documents for domain-specific optimization
+- **Configuration**: Simple configuration-based switching between default and custom models
+
 **Key Architectural Decisions**
 
 1. **Local-First Architecture**: All components run locally without cloud dependencies, ensuring privacy and offline capability
@@ -77,3 +85,4 @@ Preferred communication style: Simple, everyday language.
 3. **Persistent Storage**: Vector database persists across sessions, avoiding need to reprocess documents
 4. **Modular Design**: Separate classes for document processing, embeddings, vector database, and RAG pipeline enable easy testing and extension
 5. **Stateful Session Management**: Streamlit session state maintains initialized components, improving performance by avoiding repeated initialization
+6. **Custom Model Flexibility**: Pluggable embedding architecture allows users to bring their own trained models for domain-specific optimization
